@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" ng-app="Date">
+<head>
+    <meta charset="utf-8">
+    <script src="http://code.angularjs.org/1.2.0/angular.min.js" type="text/javascript"></script>
+    <script src="js/RDDateField.js"></script>
+    <script src="js/ui/event.js"></script>
+
+
+    <script>
+        angular.module('Date', ['ui.event'])
+                .controller('Ctrl', function($scope) {
+                    $scope.startDate = '20/11/2013';
+                    $scope.endDate   = '';
+                })
+                .directive('rdDateFieldIcon', function () {
+                    return {
+                        restrict: 'A',
+                        compile: function compile(element, attrs){
+                            return function link(scope, element, attrs){
+                                element.bind('click', function(event){
+                                    //console.log('click attrs.name '+JSON.stringify(attrs));
+                                    openPopupCalendarXY(attrs.datefieldname,event.screenX,event.screenY,event,'ffffff','000000','ff0000');
+                                });
+                            }; //end link
+                        } //end compile
+                    };
+                });
+    </script>
+</head>
+<body>
+<div ng-controller="Ctrl">
+
+<form>
+    <input type="text" id="sd" name="sd"
+           value="{{startDate}}"
+           ng-model="startDate"
+           ui-event="{blur: 'startDate = $event.currentTarget.value' }"
+            />
+
+    <span rd-date-field-icon id="sdi" dateFieldName="sd">[CAL] {{ startDate }} </span>
+
+    <BR>
+
+    <input type="text" id="ed" name="ed"
+           value="{{endDate}}"
+           ng-model="endDate"
+           ui-event="{blur: 'endDate = $event.currentTarget.value' }"/>
+
+    <span rd-date-field-icon id="edi" dateFieldName="ed">[CAL] {{ endDate }} </span>
+</form>
+
+</div>
+</body>
+</html>
